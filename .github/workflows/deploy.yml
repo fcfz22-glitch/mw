@@ -1,0 +1,18 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git fetch origin gh-pages || git branch -D gh-pages
+          git checkout -b gh-pages
+          # 构建命令（如npm run build）
+          git add -f dist/  # 假设构建输出到dist/
+          git commit -m "Deploy"
+          git push -f origin gh-pages
